@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- we can write script in header but the issue is the script will execute
+    before the HTML content is loaded. This means that if your script interacts
+    with elements on the page (like adding event listeners or manipulating the
+    DOM), it may fail because the DOM has not been fully rendered yet. 
+    TO RESOLVE THIS WE CAN USE DEFER OR ASYNC -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="./output.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./index.css" /> -->
+    <!-- Order of scripts also matters -->
+    <!-- <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    >
+  </script> -->
+    <script type="module" src="App.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

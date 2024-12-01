@@ -1,0 +1,51 @@
+/* .header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+.logo {
+  width: 100px;
+}
+.nav > ul {
+  font-size: larger;
+  display: flex;
+  list-style-type: none;
+}
+.nav > ul > li {
+  padding: 10px;
+}
+
+.search {
+  padding: 10px;
+}
+
+.restaurant-image {
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+}
+
+.restaurant-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.restaurant-card {
+  width: 225px;
+}
+
+.restaurant-card:hover {
+  background-color: #f0f0f0;
+  border: 1px solid black;
+}
+
+.restaurant-title {
+  color: brown;
+  font-size: larger;
+  font-weight: bold;
+  text-align: center;
+} */
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
