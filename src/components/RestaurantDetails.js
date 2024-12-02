@@ -24,12 +24,12 @@ const RestaurantDetails = () => {
   return !resDatails && resDatails?.length === 0 ? (
     <div>No details</div>
   ) : (
-    <div>
-      <h1>
+    <div className="text-center">
+      <h1 className="font-bold text-2xl my-6">
         {resDatails?.cards[resDatails?.cards?.length - 1]?.card?.card.name}
       </h1>
-      <h2>Restaurant Details</h2>
-      {resDatails?.cards[2]?.card?.card?.itemCards?.map((a) => {
+      {/* <h2>Restaurant Details</h2> */ console.log(resDatails?.cards)}
+      {resDatails?.cards[5]?.card?.card?.itemCards?.map((a) => {
         const d = a?.card?.info;
         return (
           <div key={d?.id}>
