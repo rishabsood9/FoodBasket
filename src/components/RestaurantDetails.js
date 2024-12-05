@@ -1,57 +1,47 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useRestaurantMenu } from "../hooks/useRestaurantMenu";
+import { RestaurantCategory } from "./RestaurantCategory";
 
 const RestaurantDetails = () => {
-  let [resDatails, setResDetails] = useState();
   const { id } = useParams();
-  useEffect(() => {
-    fetchData();
-    // THIS IS CALLED WHILE UNMOUNTING THE COMPONENT THAT MEANS ONCE YOU LEAVE THE PAGE
-    return () => {
-      console.log("unmounting");
-    };
-  }, []);
-  const fetchData = async () => {
-    const data = await fetch(
-      `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.7040592&lng=77.10249019999999&restaurantId=${id}`
-    );
-    const jsonData = await data.json();
+  const resDatails = useRestaurantMenu(id);
+  const [showItem, setShowItem] = useState(0);
 
-    setResDetails(jsonData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR);
-    console.log(jsonData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR);
-  };
+  if (resDatails === undefined || null) return <h1>No Data</h1>;
+  debugger;
+  const { name, cuisines, costForTwoMessage } =
+    resDatails?.cards[2]?.card?.card.info;
+  const { itemCards } =
+    resDatails?.cards[resDatails?.cards?.length - 1]?.groupedCard?.cardGroupMap
+      ?.REGULAR?.cards[1]?.card?.card;
+  const categories = resDatails?.cards[
+    resDatails?.cards?.length - 1
+  ]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+    (category) =>
+      category.card.card["@type"] ===
+      "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  );
 
-  return !resDatails && resDatails?.length === 0 ? (
+  return !categories && categories?.length === 0 ? (
     <div>No details</div>
   ) : (
     <div className="text-center">
-      <h1 className="font-bold text-2xl my-6">
-        {resDatails?.cards[resDatails?.cards?.length - 1]?.card?.card.name}
-      </h1>
-      {/* <h2>Restaurant Details</h2> */ console.log(resDatails?.cards)}
-      {resDatails?.cards[5]?.card?.card?.itemCards?.map((a) => {
-        const d = a?.card?.info;
-        return (
-          <div key={d?.id}>
-            <img
-              src={
-                "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" +
-                d?.imageId
-              }
-            ></img>
-            <h2>Name: {d?.name}</h2>
-            <h3>
-              {d?.ratings?.aggregatedRating?.rating
-                ? `Ratings: ${d.ratings.aggregatedRating.rating}`
-                : ""}
-            </h3>
-            <h3>Price: Rs {d?.defaultPrice / 100}</h3>
-            <h4>Description:{d?.description}</h4>
-            <br />
-            <br />
-          </div>
-        );
-      })}
+      <h1 className="font-bold text-2xl my-6">{name}</h1>
+      <p className="font-bold text-lg">
+        {cuisines?.join(", ")}-{costForTwoMessage}
+      </p>
+      <p>MENU</p>
+      <ul>
+        {categories?.map((item, index) => (
+          <RestaurantCategory
+            key={item.card.card.title}
+            category={item?.card?.card}
+            showItem={index === showItem}
+            setShowItem={() => setShowItem(index)}
+          />
+        ))}
+      </ul>
     </div>
   );
 };
