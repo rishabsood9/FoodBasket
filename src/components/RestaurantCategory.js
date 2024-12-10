@@ -1,7 +1,14 @@
-
+import { useState } from "react";
 import { ItemList } from "./ItemList";
 
-export const RestaurantCategory = ({ category, showItem, setShowItem }) => {
+export const RestaurantCategory = ({
+  category,
+  showItem,
+  setShowItem,
+  index,
+}) => {
+  const [newIndex, setNewIndex] = useState();
+  const [show, setShow] = useState(true);
   console.log(category);
   return (
     <div>
@@ -10,12 +17,20 @@ export const RestaurantCategory = ({ category, showItem, setShowItem }) => {
         <div
           className="flex justify-between cursor-pointer"
           onClick={() => {
-            setShowItem();
+            if (index === newIndex && show) {
+              setShowItem(-1);
+              setShow(false);
+            } else {
+              setShowItem(index);
+              setShow(true);
+            }
+            setNewIndex(index);
           }}
         >
           <span className="font-bold text-lg">
             {category.title} ({category.itemCards.length})
           </span>
+          <span>{showItem ? "🔽" : "🔼"}</span>
         </div>
         {showItem && <ItemList items={category.itemCards} />}
       </div>

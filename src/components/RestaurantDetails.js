@@ -8,7 +8,8 @@ const RestaurantDetails = () => {
   const resDatails = useRestaurantMenu(id);
   const [showItem, setShowItem] = useState(0);
 
-  if (resDatails === undefined || null) return <h1>No Data</h1>;
+  if (resDatails === undefined || null)
+    return <h1 className="text-center">LOADING......</h1>;
   debugger;
   const { name, cuisines, costForTwoMessage } =
     resDatails?.cards[2]?.card?.card.info;
@@ -31,14 +32,14 @@ const RestaurantDetails = () => {
       <p className="font-bold text-lg">
         {cuisines?.join(", ")}-{costForTwoMessage}
       </p>
-      <p>MENU</p>
       <ul>
         {categories?.map((item, index) => (
           <RestaurantCategory
             key={item.card.card.title}
             category={item?.card?.card}
             showItem={index === showItem}
-            setShowItem={() => setShowItem(index)}
+            setShowItem={setShowItem}
+            index={index}
           />
         ))}
       </ul>
